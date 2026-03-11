@@ -16,7 +16,7 @@ type AuthSession = {
   user?: AuthenticatedUser;
 };
 
-const PUBLIC_PATH_PREFIXES = ["/auth/login", "/auth/callback/microsoft", "/health"];
+const PUBLIC_PATH_PREFIXES = ["/auth/login", "/auth/callback/microsoft", "/auth/logout", "/health"];
 
 function getEntraConfig() {
   const config = getAppConfig();
@@ -111,6 +111,17 @@ export async function getAuthenticatedUser(request: Request) {
   const session = await sessionStorage.getSession(request.headers.get("Cookie"));
 
   return session.get("user") ?? null;
+}
+
+export async function signOutUser(request: Request) {
+  const sessionStorage = getSessionStorage();
+  const session = await sessionStorage.getSession(request.headers.get("Cookie"));
+
+  throw redirect("/", {
+    headers: {
+      "Set-Cookie": await sessionStorage.destroySession(session),
+    },
+  });
 }
 
 export async function requireAuthenticatedUser(request: Request) {

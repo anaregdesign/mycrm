@@ -45,11 +45,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  useLoaderData<typeof loader>();
+  const { user } = useLoaderData<typeof loader>();
   const location = useLocation();
 
   return (
-    <AppShell pathname={location.pathname}>
+    <AppShell pathname={location.pathname} user={user}>
       <Outlet />
     </AppShell>
   );
@@ -76,7 +76,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <AppShell pathname="/">
+    <AppShell pathname="/" user={null}>
       <main className="error-state">
         <p className="eyebrow">Application Error</p>
         <h1>{message}</h1>

@@ -1,7 +1,13 @@
-import { Badge, Body1, Caption1, Subtitle2, Title2 } from "@fluentui/react-components";
+import { Badge, Body1, Button, Caption1, Subtitle2, Title2 } from "@fluentui/react-components";
 import { Link } from "react-router";
 
 import type { ReactNode } from "react";
+
+type AuthenticatedUser = {
+  email: string;
+  name: string;
+  objectId: string;
+};
 
 const navigation = [
   {
@@ -47,9 +53,11 @@ function isActive(pathname: string, target: string) {
 export function AppShell({
   children,
   pathname,
+  user,
 }: {
   children: ReactNode;
   pathname: string;
+  user: AuthenticatedUser | null;
 }) {
   return (
     <div className="app-shell">
@@ -89,6 +97,21 @@ export function AppShell({
             <Body1 className="supporting-copy">
               本部商談から店舗導入までを、条件と次アクション込みで一貫して追える構成にしています。
             </Body1>
+            {user ? (
+              <div className="sidebar-user-block">
+                <div>
+                  <Subtitle2 as="p" className="sidebar-user-name">
+                    {user.name}
+                  </Subtitle2>
+                  <Caption1 as="p" className="sidebar-user-email">
+                    {user.email}
+                  </Caption1>
+                </div>
+                <Button appearance="subtle" as="a" href="/auth/logout" size="small">
+                  ログアウト
+                </Button>
+              </div>
+            ) : null}
           </div>
         </aside>
 
