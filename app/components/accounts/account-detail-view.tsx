@@ -3,6 +3,7 @@ import type { AccountDetail } from "~/lib/domain/entities/account";
 import type { ProductCatalogItem } from "~/lib/domain/entities/product";
 import { formatCompactCurrency, formatCurrency } from "~/lib/domain/value-objects/money";
 
+import { SectionHeading } from "../shared/section-heading";
 import { StatusPill } from "../shared/status-pill";
 
 export function AccountDetailView({
@@ -43,10 +44,11 @@ export function AccountDetailView({
       <section className="detail-grid">
         <article className="panel stack">
           <div className="section-header">
-            <div>
-              <p className="eyebrow">Contacts</p>
-              <h2 className="section-title">意思決定者と推進役</h2>
-            </div>
+            <SectionHeading
+              eyebrow="Contacts"
+              info="意思決定者、推進役、現場影響者を同時に確認するための一覧です。部門と影響度の組み合わせで商談準備に使います。"
+              title="意思決定者と推進役"
+            />
           </div>
           {detail.contacts.map((contact) => (
             <div className="list-card" key={contact.id}>
@@ -63,10 +65,11 @@ export function AccountDetailView({
 
         <article className="panel stack">
           <div className="section-header">
-            <div>
-              <p className="eyebrow">Conditions</p>
-              <h2 className="section-title">取引条件</h2>
-            </div>
+            <SectionHeading
+              eyebrow="Conditions"
+              info="支払条件、最低受注、リベート、物流条件をまとめています。提案条件や採算調整の前提として参照する想定です。"
+              title="取引条件"
+            />
           </div>
           <div className="summary-grid">
             <div className="summary-tile">支払条件<strong>{detail.salesCondition.paymentTerms}</strong></div>
@@ -82,10 +85,11 @@ export function AccountDetailView({
       <section className="two-column">
         <article className="panel stack">
           <div className="section-header">
-            <div>
-              <p className="eyebrow">Whitespace</p>
-              <h2 className="section-title">推奨提案商品</h2>
-            </div>
+            <SectionHeading
+              eyebrow="Whitespace"
+              info="販路適合と未導入余地をもとに、追加提案候補を表示しています。温度帯や賞味期限も同時に確認できます。"
+              title="推奨提案商品"
+            />
           </div>
           {recommendedProducts.map((product) => (
             <div className="list-card" key={product.id}>
@@ -106,10 +110,11 @@ export function AccountDetailView({
 
         <article className="panel stack">
           <div className="section-header">
-            <div>
-              <p className="eyebrow">Sites</p>
-              <h2 className="section-title">導入拠点</h2>
-            </div>
+            <SectionHeading
+              eyebrow="Sites"
+              info="導入済み拠点の業態、SKU 数、想定数量を並べています。展開余地や補充提案の判断に使います。"
+              title="導入拠点"
+            />
           </div>
           {detail.sites.map((site) => (
             <div className="list-card" key={site.id}>
@@ -129,10 +134,11 @@ export function AccountDetailView({
       <section className="two-column">
         <article className="panel stack">
           <div className="section-header">
-            <div>
-              <p className="eyebrow">Opportunities</p>
-              <h2 className="section-title">進行中案件</h2>
-            </div>
+            <SectionHeading
+              eyebrow="Opportunities"
+              info="この取引先で進行中の案件です。担当者、見込み時期、次アクションを確認できます。"
+              title="進行中案件"
+            />
           </div>
           {detail.opportunities.map((opportunity) => (
             <div className="list-card" key={opportunity.id}>
@@ -150,10 +156,11 @@ export function AccountDetailView({
 
         <article className="panel stack">
           <div className="section-header">
-            <div>
-              <p className="eyebrow">Activities</p>
-              <h2 className="section-title">直近の活動</h2>
-            </div>
+            <SectionHeading
+              eyebrow="Activities"
+              info="直近の接点を時系列で表示しています。案件停滞の有無や次回接点の準備状況を確認する用途です。"
+              title="直近の活動"
+            />
           </div>
           <div className="timeline">
             {detail.recentActivities.map((activity) => (
