@@ -1,0 +1,120 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/lib/server/infrastructure/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlserver"
+}
+
+model Account {
+  id                     String           @id @default(cuid())
+  name                   String
+  channel                String
+  region                 String
+  segment                String
+  health                 String
+  annualRevenue          Decimal          @db.Decimal(18, 2)
+  summary                String
+  nextAction             String
+  lastContactAt          DateTime
+  currentProductNames    String
+  whitespaceProductNames String
+  createdAt              DateTime         @default(now())
+  updatedAt              DateTime         @updatedAt
+  sites                  AccountSite[]
+  contacts               Contact[]
+  opportunities          Opportunity[]
+  activities             Activity[]
+  salesCondition         SalesCondition?
+}
+
+model AccountSite {
+  id            String  @id @default(cuid())
+  accountId     String
+  name          String
+  prefecture    String
+  format        String
+  monthlyVolume Int
+  installedSkus Int
+  account       Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+}
+
+model Contact {
+  id         String  @id @default(cuid())
+  accountId  String
+  name       String
+  role       String
+  department String
+  email      String?
+  phone      String?
+  influence  String
+  account    Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id              String               @id @default(cuid())
+  name            String
+  category        String
+  temperatureZone String
+  shelfLifeDays   Int
+  packSize        String
+  marginBand      String
+  targetChannels  String
+  basePrice       Decimal              @db.Decimal(18, 2)
+  proposals       OpportunityProduct[]
+}
+
+model Opportunity {
+  id                     String               @id @default(cuid())
+  accountId              String
+  title                  String
+  stage                  String
+  probability            Int
+  expectedMonthlyRevenue Decimal              @db.Decimal(18, 2)
+  targetCloseMonth       String
+  owner                  String
+  blockers               String
+  nextStep               String
+  account                Account              @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  products               OpportunityProduct[]
+}
+
+model OpportunityProduct {
+  opportunityId String
+  productId     String
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  product       Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@id([opportunityId, productId])
+}
+
+model Activity {
+  id           String   @id @default(cuid())
+  accountId    String
+  type         String
+  subject      String
+  scheduledFor DateTime
+  owner        String
+  status       String
+  notes        String
+  account      Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+}
+
+model SalesCondition {
+  id                   String  @id @default(cuid())
+  accountId            String  @unique
+  paymentTerms         String
+  rebateRate           Decimal @db.Decimal(5, 2)
+  leadTimeDays         Int
+  minimumOrderValue    Decimal @db.Decimal(18, 2)
+  logisticsMode        String
+  promotionBudgetRatio Decimal @db.Decimal(5, 2)
+  account              Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+}
