@@ -94,6 +94,13 @@ npm run dev:prisma
 
 App registration は `web` プラットフォームで作成し、上記 callback URL を redirect URI に登録してください。
 
+Container Apps 反映に必要な GitHub `production` Environment の追加設定:
+
+- Variables: `PUBLIC_APP_URL`, `MICROSOFT_ENTRA_CLIENT_ID`, `MICROSOFT_ENTRA_TENANT_ID`
+- Secrets: `MICROSOFT_ENTRA_CLIENT_SECRET`, `SESSION_SECRET`
+
+リリース workflow は `scripts/azure/postprovision.sh` を実行し、Container App の env と secret を Entra ログイン用に同期します。
+
 ## Azure Delivery
 
 - `azure.yaml`: Container Apps 向けの `azd` エントリ
@@ -104,7 +111,8 @@ App registration は `web` プラットフォームで作成し、上記 callbac
 
 GitHub Actions で Azure deploy まで使う場合は、GitHub の `production` Environment に以下を用意します。
 
-- Variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `AZURE_RESOURCE_GROUP`, `AZURE_CONTAINER_APP_NAME`, `AZURE_CONTAINER_REGISTRY_NAME`
+- Variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `AZURE_RESOURCE_GROUP`, `AZURE_CONTAINER_APP_NAME`, `AZURE_CONTAINER_REGISTRY_NAME`, `PUBLIC_APP_URL`, `MICROSOFT_ENTRA_CLIENT_ID`, `MICROSOFT_ENTRA_TENANT_ID`
+- Secrets: `MICROSOFT_ENTRA_CLIENT_SECRET`, `SESSION_SECRET`
 
 Azure SQL は Microsoft Entra 管理者を必須にしているため、初回の Bicep デプロイでは `sqlAdministratorLogin` と `sqlAdministratorObjectId` を現在の Azure 利用者または管理用グループで渡します。Container App には `DATABASE_URL=sqlserver://<fqdn>:1433;database=<db>;encrypt=true;trustServerCertificate=false;authentication=DefaultAzureCredential` が自動で設定され、実行時はマネージド ID で Azure SQL に接続します。
 

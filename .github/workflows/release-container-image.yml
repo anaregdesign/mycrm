@@ -67,11 +67,19 @@ jobs:
       AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
       AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.AZURE_CONTAINER_REGISTRY_NAME }}
       AZURE_CONTAINER_APP_NAME: ${{ vars.AZURE_CONTAINER_APP_NAME }}
+      MICROSOFT_ENTRA_CLIENT_ID: ${{ vars.MICROSOFT_ENTRA_CLIENT_ID }}
+      MICROSOFT_ENTRA_TENANT_ID: ${{ vars.MICROSOFT_ENTRA_TENANT_ID }}
+      PUBLIC_APP_URL: ${{ vars.PUBLIC_APP_URL }}
       AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
       AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
       AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
       IMAGE_REF: ${{ vars.AZURE_CONTAINER_REGISTRY_NAME }}.azurecr.io/mycrm:${{ github.event.release.tag_name }}
+      MICROSOFT_ENTRA_CLIENT_SECRET: ${{ secrets.MICROSOFT_ENTRA_CLIENT_SECRET }}
+      SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v5
+
       - name: Validate release deployment configuration
         run: |
           test -n "$AZURE_CLIENT_ID" || { echo "Missing environment variable AZURE_CLIENT_ID"; exit 1; }
@@ -80,6 +88,11 @@ jobs:
           test -n "$AZURE_RESOURCE_GROUP" || { echo "Missing environment variable AZURE_RESOURCE_GROUP"; exit 1; }
           test -n "$AZURE_CONTAINER_APP_NAME" || { echo "Missing environment variable AZURE_CONTAINER_APP_NAME"; exit 1; }
           test -n "$AZURE_CONTAINER_REGISTRY_NAME" || { echo "Missing environment variable AZURE_CONTAINER_REGISTRY_NAME"; exit 1; }
+          test -n "$PUBLIC_APP_URL" || { echo "Missing environment variable PUBLIC_APP_URL"; exit 1; }
+          test -n "$MICROSOFT_ENTRA_CLIENT_ID" || { echo "Missing environment variable MICROSOFT_ENTRA_CLIENT_ID"; exit 1; }
+          test -n "$MICROSOFT_ENTRA_TENANT_ID" || { echo "Missing environment variable MICROSOFT_ENTRA_TENANT_ID"; exit 1; }
+          test -n "$MICROSOFT_ENTRA_CLIENT_SECRET" || { echo "Missing secret MICROSOFT_ENTRA_CLIENT_SECRET"; exit 1; }
+          test -n "$SESSION_SECRET" || { echo "Missing secret SESSION_SECRET"; exit 1; }
 
       - name: Log in to Azure with OIDC
         uses: azure/login@v2
@@ -96,6 +109,12 @@ jobs:
               --resource-group "$AZURE_RESOURCE_GROUP" \
               --name "$AZURE_CONTAINER_APP_NAME" \
               --image "$IMAGE_REF"
+
+      - name: Apply authentication settings
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            bash ./scripts/azure/postprovision.sh
 
       - name: Smoke test deployed release
         uses: azure/cli@v2
