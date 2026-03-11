@@ -36,19 +36,26 @@ export function AnalyticsView({
               {
                 key: "channel",
                 header: "チャネル",
+                compare: (left, right) => left.channel.localeCompare(right.channel, "ja"),
                 renderCell: (item) => item.channel,
+                width: "wide",
               },
               {
                 key: "count",
                 header: "案件数",
+                compare: (left, right) => left.count - right.count,
                 renderCell: (item) => item.count,
+                width: "narrow",
               },
               {
                 key: "pipeline",
                 header: "月次見込",
+                compare: (left, right) => left.pipeline - right.pipeline,
                 renderCell: (item) => formatCompactCurrency(item.pipeline),
+                width: "narrow",
               },
             ]}
+            defaultSort={{ columnKey: "pipeline", direction: "descending" }}
             getRowId={(item) => item.channel}
             items={analytics.channelPipeline}
           />
@@ -87,14 +94,19 @@ export function AnalyticsView({
             {
               key: "productName",
               header: "商品",
+              compare: (left, right) => left.productName.localeCompare(right.productName, "ja"),
               renderCell: (item) => item.productName,
+              width: "wide",
             },
             {
               key: "whitespaceAccounts",
               header: "導入余地のあるアカウント数",
+              compare: (left, right) => left.whitespaceAccounts - right.whitespaceAccounts,
               renderCell: (item) => item.whitespaceAccounts,
+              width: "narrow",
             },
           ]}
+          defaultSort={{ columnKey: "whitespaceAccounts", direction: "descending" }}
           getRowId={(item) => item.productName}
           items={analytics.whitespaceByProduct}
         />

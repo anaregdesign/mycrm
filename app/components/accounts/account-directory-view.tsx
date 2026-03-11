@@ -74,6 +74,7 @@ export function AccountDirectoryView({
             {
               key: "account",
               header: "取引先",
+              compare: (left, right) => left.name.localeCompare(right.name, "ja"),
               renderCell: (account) => (
                 <>
                   <Link className="link-strong" to={`/accounts/${account.id}`}>
@@ -82,38 +83,48 @@ export function AccountDirectoryView({
                   <p className="list-meta">{account.region} / {account.segment}</p>
                 </>
               ),
+              width: "wide",
             },
             {
               key: "channel",
               header: "販路",
+              compare: (left, right) => left.channel.localeCompare(right.channel, "ja"),
               renderCell: (account) => (
                 <div className="stack">
                   <Badge className="pill">{account.channel}</Badge>
                   <StatusPill label={account.health} />
                 </div>
               ),
+              width: "narrow",
             },
             {
               key: "revenue",
               header: "売上",
+              compare: (left, right) => left.annualRevenue - right.annualRevenue,
               renderCell: (account) => formatCompactCurrency(account.annualRevenue),
+              width: "narrow",
             },
             {
               key: "currentProducts",
               header: "現行商品",
+              compare: (left, right) => left.currentProductNames.join(" ").localeCompare(right.currentProductNames.join(" "), "ja"),
               renderCell: (account) => account.currentProductNames.join(" / "),
             },
             {
               key: "whitespace",
               header: "導入余地",
+              compare: (left, right) => left.whitespaceProductNames.length - right.whitespaceProductNames.length,
               renderCell: (account) => account.whitespaceProductNames.join(" / "),
             },
             {
               key: "nextAction",
               header: "次アクション",
+              compare: (left, right) => left.nextAction.localeCompare(right.nextAction, "ja"),
               renderCell: (account) => account.nextAction,
+              width: "wide",
             },
           ]}
+          defaultSort={{ columnKey: "revenue", direction: "descending" }}
           getRowId={(account) => account.id}
           items={accounts}
         />

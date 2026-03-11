@@ -402,6 +402,38 @@ textarea {
   vertical-align: top;
 }
 
+.data-table__header-cell--narrow,
+.data-table__cell--narrow {
+  width: 12%;
+}
+
+.data-table__header-cell--regular,
+.data-table__cell--regular {
+  width: auto;
+}
+
+.data-table__header-cell--wide,
+.data-table__cell--wide {
+  width: 22%;
+}
+
+.data-table__header-button {
+  justify-content: flex-start;
+  width: 100%;
+  padding-inline: 0;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+.data-table__sort-indicator {
+  margin-left: 6px;
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
 .data-table__row:hover {
   background: #f8fbfd;
 }
