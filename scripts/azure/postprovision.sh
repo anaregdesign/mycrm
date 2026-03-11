@@ -32,12 +32,15 @@ for value in "${auth_values[@]}"; do
 done
 
 if [[ "$has_auth_config" == true ]]; then
+  entra_client_secret_name="microsoft-entra-client-secret"
+  session_secret_name="session-secret"
+
   az containerapp secret set \
     --resource-group "${AZURE_RESOURCE_GROUP}" \
     --name "${AZURE_CONTAINER_APP_NAME}" \
     --secrets \
-      "MICROSOFT_ENTRA_CLIENT_SECRET=${MICROSOFT_ENTRA_CLIENT_SECRET}" \
-      "SESSION_SECRET=${SESSION_SECRET}"
+      "${entra_client_secret_name}=${MICROSOFT_ENTRA_CLIENT_SECRET}" \
+      "${session_secret_name}=${SESSION_SECRET}"
 
   az containerapp update \
     --resource-group "${AZURE_RESOURCE_GROUP}" \
@@ -46,8 +49,8 @@ if [[ "$has_auth_config" == true ]]; then
       "PUBLIC_APP_URL=${PUBLIC_APP_URL}" \
       "MICROSOFT_ENTRA_CLIENT_ID=${MICROSOFT_ENTRA_CLIENT_ID}" \
       "MICROSOFT_ENTRA_TENANT_ID=${MICROSOFT_ENTRA_TENANT_ID}" \
-      "MICROSOFT_ENTRA_CLIENT_SECRET=secretref:MICROSOFT_ENTRA_CLIENT_SECRET" \
-      "SESSION_SECRET=secretref:SESSION_SECRET"
+      "MICROSOFT_ENTRA_CLIENT_SECRET=secretref:${entra_client_secret_name}" \
+      "SESSION_SECRET=secretref:${session_secret_name}"
 elif [[ -n "${PUBLIC_APP_URL:-}${MICROSOFT_ENTRA_CLIENT_ID:-}${MICROSOFT_ENTRA_TENANT_ID:-}${MICROSOFT_ENTRA_CLIENT_SECRET:-}${SESSION_SECRET:-}" ]]; then
   echo "Skipping Entra auth configuration because one or more required settings are missing."
 fi
