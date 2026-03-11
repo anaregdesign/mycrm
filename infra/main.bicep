@@ -23,7 +23,7 @@ var normalizedAppName = toLower(replace(appName, '-', ''))
 var keyVaultName = take('kv${normalizedAppName}${uniqueString(subscription().id, resourceGroup().id)}', 24)
 var sqlServerName = take('sql-${normalizedAppName}-${uniqueString(resourceGroup().id)}', 63)
 var sqlDatabaseName = 'sqldb-${appName}'
-var databaseUrl = 'sqlserver://${sqlServer.properties.fullyQualifiedDomainName}:1433;database=${sqlDatabase.name};encrypt=true;trustServerCertificate=false;authentication=ActiveDirectoryDefault'
+var databaseUrl = 'sqlserver://${sqlServer.properties.fullyQualifiedDomainName}:1433;database=${sqlDatabase.name};encrypt=true;trustServerCertificate=false;authentication=DefaultAzureCredential'
 var hasRegistryCredentials = !empty(registryServer) && !empty(registryUsername) && !empty(registryPassword)
 var appConfigDataReaderRoleDefinitionId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '516239f1-63e1-4d78-a4de-a74fb236a071')
 var keyVaultSecretsUserRoleDefinitionId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '4633458b-17de-408a-b874-0445c86b69e6')
