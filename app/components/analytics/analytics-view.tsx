@@ -1,5 +1,6 @@
 import { formatCompactCurrency } from "~/lib/domain/value-objects/money";
 
+import { DataTable } from "../shared/data-table";
 import { PageHeader } from "../shared/page-header";
 
 export function AnalyticsView({
@@ -27,26 +28,28 @@ export function AnalyticsView({
               <h2 className="section-title">チャネル別案件金額</h2>
             </div>
           </div>
-          <div className="table-wrap">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>チャネル</th>
-                  <th>案件数</th>
-                  <th>月次見込</th>
-                </tr>
-              </thead>
-              <tbody>
-                {analytics.channelPipeline.map((item) => (
-                  <tr key={item.channel}>
-                    <td>{item.channel}</td>
-                    <td>{item.count}</td>
-                    <td>{formatCompactCurrency(item.pipeline)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DataTable
+            ariaLabel="チャネル別案件金額"
+            columns={[
+              {
+                key: "channel",
+                header: "チャネル",
+                renderCell: (item) => item.channel,
+              },
+              {
+                key: "count",
+                header: "案件数",
+                renderCell: (item) => item.count,
+              },
+              {
+                key: "pipeline",
+                header: "月次見込",
+                renderCell: (item) => formatCompactCurrency(item.pipeline),
+              },
+            ]}
+            getRowId={(item) => item.channel}
+            items={analytics.channelPipeline}
+          />
         </article>
 
         <article className="panel stack">
@@ -74,24 +77,23 @@ export function AnalyticsView({
             <h2 className="section-title">提案余地の多い商品</h2>
           </div>
         </div>
-        <div className="table-wrap">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>商品</th>
-                <th>導入余地のあるアカウント数</th>
-              </tr>
-            </thead>
-            <tbody>
-              {analytics.whitespaceByProduct.map((item) => (
-                <tr key={item.productName}>
-                  <td>{item.productName}</td>
-                  <td>{item.whitespaceAccounts}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <DataTable
+          ariaLabel="提案余地の多い商品"
+          columns={[
+            {
+              key: "productName",
+              header: "商品",
+              renderCell: (item) => item.productName,
+            },
+            {
+              key: "whitespaceAccounts",
+              header: "導入余地のあるアカウント数",
+              renderCell: (item) => item.whitespaceAccounts,
+            },
+          ]}
+          getRowId={(item) => item.productName}
+          items={analytics.whitespaceByProduct}
+        />
       </section>
     </main>
   );
