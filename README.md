@@ -91,6 +91,8 @@ GitHub Actions で Azure deploy まで使う場合は、GitHub の `production` 
 - Variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `AZURE_RESOURCE_GROUP`, `AZURE_CONTAINER_APP_NAME`, `GHCR_PULL_USERNAME`
 - Secrets: `GHCR_PULL_TOKEN`
 
+Azure SQL は Microsoft Entra 管理者を必須にしているため、初回の Bicep デプロイでは `sqlAdministratorLogin` と `sqlAdministratorObjectId` を現在の Azure 利用者または管理用グループで渡します。Container App には `DATABASE_URL=sqlserver://<fqdn>:1433;database=<db>;encrypt=true;trustServerCertificate=false;authentication=ActiveDirectoryDefault` が自動で設定され、実行時はマネージド ID で Azure SQL に接続します。
+
 VS Code の workflow 診断でこれらが未定義と警告されても、GitHub 側で Environment と Variables を作れば解消します。
 
 ## Notes

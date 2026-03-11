@@ -1,6 +1,9 @@
 param appName string = 'mycrm'
 param location string = resourceGroup().location
 param containerImage string
+param sqlAdministratorLogin string
+param sqlAdministratorObjectId string
+param sqlAdministratorTenantId string = tenant().tenantId
 param containerPort int = 3000
 param cpu int = 1
 param memory string = '2Gi'
@@ -16,6 +19,7 @@ var normalizedAppName = toLower(replace(appName, '-', ''))
 var keyVaultName = take('kv${normalizedAppName}${uniqueString(subscription().id, resourceGroup().id)}', 24)
 var sqlServerName = take('sql-${normalizedAppName}-${uniqueString(resourceGroup().id)}', 63)
 var sqlDatabaseName = 'sqldb-${appName}'
+var databaseUrl = 'sqlserver://${sqlServer.properties.fullyQualifiedDomainName}:1433;database=${sqlDatabase.name};encrypt=true;trustServerCertificate=false;authentication=ActiveDirectoryDefault'
 var appConfigDataReaderRoleDefinitionId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '516239f1-63e1-4d78-a4de-a74fb236a071')
 var keyVaultSecretsUserRoleDefinitionId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '4633458b-17de-408a-b874-0445c86b69e6')
 
@@ -81,9 +85,9 @@ resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {
     administrators: {
       administratorType: 'ActiveDirectory'
       azureADOnlyAuthentication: true
-      login: 'mycrm-admins'
-      sid: tenant().tenantId
-      tenantId: tenant().tenantId
+      login: sqlAdministratorLogin
+      sid: sqlAdministratorObjectId
+      tenantId: sqlAdministratorTenantId
     }
     publicNetworkAccess: 'Enabled'
     restrictOutboundNetworkAccess: 'Disabled'
@@ -177,6 +181,10 @@ resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
                 value: sqlDatabase.name
               }
               {
+                name: 'DATABASE_URL'
+                value: databaseUrl
+              }
+              {
                 name: 'CRM_DATA_SOURCE'
                 value: 'prisma'
               }
@@ -222,5 +230,6 @@ output containerAppFqdn string = containerApp.properties.configuration.ingress.f
 output managedIdentityPrincipalId string = containerApp.identity.principalId
 output appConfigurationEndpoint string = appConfiguration.properties.endpoint
 output keyVaultUri string = keyVault.properties.vaultUri
+output sqlServerName string = sqlServer.name
 output sqlServerFqdn string = sqlServer.properties.fullyQualifiedDomainName
 output sqlDatabaseName string = sqlDatabase.name
