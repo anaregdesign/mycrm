@@ -1,3 +1,4 @@
+import { Badge, Body1, Title1 } from "@fluentui/react-components";
 import type { ReactNode } from "react";
 
 export function PageHeader({
@@ -14,12 +15,16 @@ export function PageHeader({
   return (
     <header className="page-header">
       <div className="page-header__top">
-        <div>
-          <p className="eyebrow">{eyebrow}</p>
-          <h1 className="page-title">{title}</h1>
-          <p className="page-copy">{copy}</p>
+        <div className="page-header__content">
+          <Badge appearance="outline" className="eyebrow">
+            {eyebrow}
+          </Badge>
+          <Title1 as="h1" className="page-title">
+            {title}
+          </Title1>
+          <Body1 className="page-copy">{copy}</Body1>
         </div>
-        {aside}
+        {aside ? <div className="page-header__aside">{aside}</div> : null}
       </div>
     </header>
   );

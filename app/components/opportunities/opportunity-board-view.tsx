@@ -1,3 +1,4 @@
+import { Badge, Field, Select } from "@fluentui/react-components";
 import { formatCompactCurrency, formatRatio } from "~/lib/domain/value-objects/money";
 
 import { PageHeader } from "../shared/page-header";
@@ -35,15 +36,14 @@ export function OpportunityBoardView({
       />
 
       <section className="panel stack">
-        <label className="field-label">
-          ステージ
-          <select className="select-input" onChange={(event) => onStageChange(event.currentTarget.value)} value={stage}>
+        <Field className="field-label" label="ステージ">
+          <Select className="select-input" onChange={(event) => onStageChange(event.currentTarget.value)} value={stage}>
             <option value="all">すべて</option>
             {stages.map((item) => (
               <option key={item} value={item}>{item}</option>
             ))}
-          </select>
-        </label>
+          </Select>
+        </Field>
       </section>
 
       <section className="kanban">
@@ -69,13 +69,15 @@ export function OpportunityBoardView({
                   </div>
                   <p className="subtle-text">{opportunity.nextStep}</p>
                   <div className="chip-row">
-                    <span className="chip">{formatCompactCurrency(opportunity.expectedMonthlyRevenue)}</span>
-                    <span className="chip">{formatRatio(opportunity.probability)}</span>
-                    <span className="chip">{opportunity.targetCloseMonth}</span>
+                    <Badge className="chip">{formatCompactCurrency(opportunity.expectedMonthlyRevenue)}</Badge>
+                    <Badge className="chip">{formatRatio(opportunity.probability)}</Badge>
+                    <Badge className="chip">{opportunity.targetCloseMonth}</Badge>
                   </div>
                   <div className="chip-row">
                     {opportunity.productNames.map((name) => (
-                      <span className="chip" key={name}>{name}</span>
+                      <Badge className="chip" key={name}>
+                        {name}
+                      </Badge>
                     ))}
                   </div>
                 </div>

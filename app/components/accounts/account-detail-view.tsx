@@ -1,8 +1,8 @@
+import { Badge } from "@fluentui/react-components";
 import type { AccountDetail } from "~/lib/domain/entities/account";
 import type { ProductCatalogItem } from "~/lib/domain/entities/product";
 import { formatCompactCurrency, formatCurrency } from "~/lib/domain/value-objects/money";
 
-import { PageHeader } from "../shared/page-header";
 import { StatusPill } from "../shared/status-pill";
 
 export function AccountDetailView({
@@ -55,7 +55,7 @@ export function AccountDetailView({
                   <strong>{contact.name}</strong>
                   <p className="list-meta">{contact.role} / {contact.department}</p>
                 </div>
-                <span className="pill">{contact.influence}</span>
+                <Badge className="pill">{contact.influence}</Badge>
               </div>
             </div>
           ))}
@@ -94,11 +94,11 @@ export function AccountDetailView({
                   <strong>{product.name}</strong>
                   <p className="list-meta">{product.category} / {product.temperatureZone}</p>
                 </div>
-                <span className="pill">{product.marginBand}</span>
+                <Badge className="pill">{product.marginBand}</Badge>
               </div>
               <div className="chip-row">
-                <span className="chip">賞味 {product.shelfLifeDays}日</span>
-                <span className="chip">{product.packSize}</span>
+                <Badge className="chip">賞味 {product.shelfLifeDays}日</Badge>
+                <Badge className="chip">{product.packSize}</Badge>
               </div>
             </div>
           ))}
@@ -118,7 +118,7 @@ export function AccountDetailView({
                   <strong>{site.name}</strong>
                   <p className="list-meta">{site.prefecture} / {site.format}</p>
                 </div>
-                <span className="pill">{site.installedSkus} SKU</span>
+                <Badge className="pill">{site.installedSkus} SKU</Badge>
               </div>
               <p className="subtle-text">月間想定数量 {site.monthlyVolume.toLocaleString("ja-JP")} ケース</p>
             </div>

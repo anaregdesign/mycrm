@@ -1,3 +1,4 @@
+import { Badge, Field, Input, Select } from "@fluentui/react-components";
 import { Link } from "react-router";
 
 import type { AccountSummary } from "~/lib/domain/entities/account";
@@ -29,18 +30,16 @@ export function AccountDirectoryView({
 
       <section className="panel stack">
         <div className="toolbar">
-          <label className="field-label">
-            キーワード
-            <input
+          <Field className="field-label" label="キーワード">
+            <Input
               className="text-input"
-              onChange={(event) => onQueryChange(event.currentTarget.value)}
+              onChange={(_, data) => onQueryChange(data.value)}
               placeholder="会社名、地域、現行商品で検索"
               value={query}
             />
-          </label>
-          <label className="field-label">
-            チャネル
-            <select
+          </Field>
+          <Field className="field-label" label="チャネル">
+            <Select
               className="select-input"
               onChange={(event) => onChannelChange(event.currentTarget.value)}
               value={channel}
@@ -50,12 +49,12 @@ export function AccountDirectoryView({
               <option value="wholesale">卸</option>
               <option value="foodservice">外食</option>
               <option value="ecommerce">EC</option>
-            </select>
-          </label>
+            </Select>
+          </Field>
           <div className="field-label">
-            検索結果
+            <span>検索結果</span>
             <div className="summary-list">
-              <span className="pill">{accounts.length} 社</span>
+              <Badge className="pill">{accounts.length} 社</Badge>
             </div>
           </div>
         </div>
@@ -83,7 +82,7 @@ export function AccountDirectoryView({
                   </td>
                   <td>
                     <div className="stack">
-                      <span className="pill">{account.channel}</span>
+                      <Badge className="pill">{account.channel}</Badge>
                       <StatusPill label={account.health} />
                     </div>
                   </td>

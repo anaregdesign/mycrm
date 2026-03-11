@@ -1,3 +1,4 @@
+import { Badge, Field, Input, Select } from "@fluentui/react-components";
 import { Link } from "react-router";
 
 import type { AccountSummary } from "~/lib/domain/entities/account";
@@ -54,18 +55,16 @@ export function DashboardView({
           </div>
         </div>
         <div className="toolbar">
-          <label className="field-label">
-            キーワード
-            <input
+          <Field className="field-label" label="キーワード">
+            <Input
               className="text-input"
-              onChange={(event) => onQueryChange(event.currentTarget.value)}
+              onChange={(_, data) => onQueryChange(data.value)}
               placeholder="取引先名、地域、導入余地商品で検索"
               value={query}
             />
-          </label>
-          <label className="field-label">
-            チャネル
-            <select
+          </Field>
+          <Field className="field-label" label="チャネル">
+            <Select
               className="select-input"
               onChange={(event) => onChannelChange(event.currentTarget.value)}
               value={channel}
@@ -75,15 +74,15 @@ export function DashboardView({
               <option value="wholesale">卸</option>
               <option value="foodservice">外食</option>
               <option value="ecommerce">EC</option>
-            </select>
-          </label>
+            </Select>
+          </Field>
           <div className="field-label">
-            主要ステージ
+            <span>主要ステージ</span>
             <div className="filter-row">
               {data.stageSummary.map((stage) => (
-                <span className="filter-pill" key={stage.stage}>
+                <Badge className="filter-pill" key={stage.stage}>
                   {stage.stage} {stage.count}件
-                </span>
+                </Badge>
               ))}
             </div>
           </div>
@@ -141,11 +140,13 @@ export function DashboardView({
                     <strong>{account.name}</strong>
                     <p className="list-meta">不足 SKU {account.whitespaceProductNames.length}</p>
                   </div>
-                  <span className="pill">{account.channel}</span>
+                  <Badge className="pill">{account.channel}</Badge>
                 </div>
                 <div className="chip-row">
                   {account.whitespaceProductNames.map((name) => (
-                    <span className="chip" key={name}>{name}</span>
+                    <Badge className="chip" key={name}>
+                      {name}
+                    </Badge>
                   ))}
                 </div>
               </Link>

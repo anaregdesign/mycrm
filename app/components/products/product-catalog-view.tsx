@@ -1,3 +1,4 @@
+import { Badge } from "@fluentui/react-components";
 import { formatCurrency } from "~/lib/domain/value-objects/money";
 
 import { PageHeader } from "../shared/page-header";
@@ -35,12 +36,12 @@ export function ProductCatalogView({
                 <p className="eyebrow">{product.category}</p>
                 <h2 className="section-title">{product.name}</h2>
               </div>
-              <span className="pill">{product.marginBand}</span>
+              <Badge className="pill">{product.marginBand}</Badge>
             </div>
             <div className="chip-row">
-              <span className="chip">{product.temperatureZone}</span>
-              <span className="chip">賞味 {product.shelfLifeDays} 日</span>
-              <span className="chip">{product.packSize}</span>
+              <Badge className="chip">{product.temperatureZone}</Badge>
+              <Badge className="chip">賞味 {product.shelfLifeDays} 日</Badge>
+              <Badge className="chip">{product.packSize}</Badge>
             </div>
             <p className="subtle-text">標準単価 {formatCurrency(product.basePrice)}</p>
             <div className="summary-grid">

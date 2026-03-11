@@ -1,3 +1,4 @@
+import { FluentProvider, webLightTheme } from "@fluentui/react-components";
 import {
   isRouteErrorResponse,
   Links,
@@ -12,18 +13,7 @@ import type { Route } from "./+types/root";
 import { AppShell } from "./components/shared/app-shell";
 import "./app.css";
 
-export const links: Route.LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap",
-  },
-];
+export const links: Route.LinksFunction = () => [];
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -35,9 +25,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
-        <ScrollRestoration />
-        <Scripts />
+        <FluentProvider theme={webLightTheme}>
+          {children}
+          <ScrollRestoration />
+          <Scripts />
+        </FluentProvider>
       </body>
     </html>
   );

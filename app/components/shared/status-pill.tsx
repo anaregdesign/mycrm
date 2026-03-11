@@ -1,3 +1,5 @@
+import { Badge } from "@fluentui/react-components";
+
 export function toneFromHealth(value: string) {
   if (value === "healthy" || value === "done" || value === "won") {
     return "healthy";
@@ -9,9 +11,11 @@ export function toneFromHealth(value: string) {
 }
 
 export function StatusPill({ label }: { label: string }) {
+  const tone = toneFromHealth(label);
+
   return (
-    <span className="status-pill" data-tone={toneFromHealth(label)}>
+    <Badge className={`status-pill status-pill--${tone}`}>
       {label}
-    </span>
+    </Badge>
   );
 }

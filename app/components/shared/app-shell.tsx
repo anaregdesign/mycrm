@@ -1,3 +1,4 @@
+import { Badge, Body1, Caption1, Subtitle2, Title2 } from "@fluentui/react-components";
 import { Link } from "react-router";
 
 import type { ReactNode } from "react";
@@ -54,30 +55,40 @@ export function AppShell({
     <div className="app-shell">
       <div className="app-shell__inner">
         <aside className="sidebar">
-          <div className="brand-mark">CRM</div>
-          <h1 className="brand-title">MyCRM</h1>
-          <p className="brand-copy">
-            食品営業の本部提案、卸深耕、店舗導入、販促条件をひとつの業務画面に集約します。
-          </p>
+          <div className="brand-block">
+            <Badge appearance="filled" className="brand-mark">
+              MyCRM
+            </Badge>
+            <Title2 as="h1" className="brand-title">
+              営業オペレーション
+            </Title2>
+            <Body1 className="brand-copy">
+              本部提案、導入余地、案件進行、活動履歴を同じ流れで確認できる業務画面です。
+            </Body1>
+          </div>
 
-          <nav>
+          <nav aria-label="主要ナビゲーション">
             {navigation.map((item) => (
               <Link
                 key={item.to}
                 className={`nav-link${isActive(pathname, item.to) ? " is-active" : ""}`}
                 to={item.to}
               >
-                <span className="nav-label">{item.label}</span>
-                <span className="nav-description">{item.description}</span>
+                <Subtitle2 as="span" className="nav-label">
+                  {item.label}
+                </Subtitle2>
+                <Caption1 as="span" className="nav-description">
+                  {item.description}
+                </Caption1>
               </Link>
             ))}
           </nav>
 
           <div className="sidebar-footer">
-            <p className="eyebrow">Operating Model</p>
-            <p className="supporting-copy">
-              本部商談、店舗導入、販促投資、採算条件まで一続きに扱う営業運用を想定しています。
-            </p>
+            <Caption1 className="eyebrow">Operating model</Caption1>
+            <Body1 className="supporting-copy">
+              本部商談から店舗導入までを、条件と次アクション込みで一貫して追える構成にしています。
+            </Body1>
           </div>
         </aside>
 
