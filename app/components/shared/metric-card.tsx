@@ -1,4 +1,6 @@
-import { Body1, Caption1, Card, Title2 } from "@fluentui/react-components";
+import fluentReactComponents from "@fluentui/react-components";
+
+const { Body1, Caption1, Card, Title2 } = fluentReactComponents;
 import { formatCompactCurrency } from "~/lib/domain/value-objects/money";
 
 export function MetricCard({

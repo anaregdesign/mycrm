@@ -1,4 +1,6 @@
-import { Badge, Field, Select } from "@fluentui/react-components";
+import fluentReactComponents from "@fluentui/react-components";
+
+const { Badge, Field, Select } = fluentReactComponents;
 import { formatCompactCurrency, formatRatio } from "~/lib/domain/value-objects/money";
 
 import { PageHeader } from "../shared/page-header";

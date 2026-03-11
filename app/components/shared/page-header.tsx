@@ -1,4 +1,6 @@
-import { Badge, Body1, Title1 } from "@fluentui/react-components";
+import fluentReactComponents from "@fluentui/react-components";
+
+const { Badge, Body1, Title1 } = fluentReactComponents;
 import type { ReactNode } from "react";
 
 export function PageHeader({

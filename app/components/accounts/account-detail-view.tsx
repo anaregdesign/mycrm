@@ -1,4 +1,6 @@
-import { Badge } from "@fluentui/react-components";
+import fluentReactComponents from "@fluentui/react-components";
+
+const { Badge } = fluentReactComponents;
 import type { AccountDetail } from "~/lib/domain/entities/account";
 import type { ProductCatalogItem } from "~/lib/domain/entities/product";
 import { formatCompactCurrency, formatCurrency } from "~/lib/domain/value-objects/money";

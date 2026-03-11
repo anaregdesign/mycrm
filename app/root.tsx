@@ -1,4 +1,5 @@
-import { FluentProvider, webLightTheme } from "@fluentui/react-components";
+import fluentReactComponents from "@fluentui/react-components";
+import { useMemo } from "react";
 import {
   isRouteErrorResponse,
   Links,
@@ -16,6 +17,8 @@ import { AppShell } from "./components/shared/app-shell";
 import { requireAuthenticatedUser } from "./lib/server/infrastructure/auth/entra-auth.server";
 import "./app.css";
 
+const { createDOMRenderer, FluentProvider, RendererProvider, webLightTheme } = fluentReactComponents;
+
 export const links: Route.LinksFunction = () => [];
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -25,6 +28,19 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const fluentRenderer = useMemo(
+    () => (typeof document === "undefined" ? null : createDOMRenderer()),
+    [],
+  );
+
+  const content = (
+    <FluentProvider theme={webLightTheme}>
+      {children}
+      <ScrollRestoration />
+      <Scripts />
+    </FluentProvider>
+  );
+
   return (
     <html lang="ja">
       <head>
@@ -34,11 +50,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <FluentProvider theme={webLightTheme}>
-          {children}
-          <ScrollRestoration />
-          <Scripts />
-        </FluentProvider>
+        {fluentRenderer ? <RendererProvider renderer={fluentRenderer}>{content}</RendererProvider> : content}
       </body>
     </html>
   );

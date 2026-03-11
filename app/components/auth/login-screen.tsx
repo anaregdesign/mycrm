@@ -1,4 +1,6 @@
-import { Badge, Body1, Button, Card, Title2 } from "@fluentui/react-components";
+import fluentReactComponents from "@fluentui/react-components";
+
+const { Badge, Body1, Button, Card, Title2 } = fluentReactComponents;
 import { useLocation } from "react-router";
 
 export function LoginScreen() {
@@ -18,7 +20,12 @@ export function LoginScreen() {
           このアプリは組織アカウントでのサインインが必須です。未ログイン時は業務データを表示しません。
         </Body1>
         <div className="login-screen__actions">
-          <Button appearance="primary" as="a" href={`/auth/login?returnTo=${encodeURIComponent(returnTo)}`}>
+          <Button
+            appearance="primary"
+            as="a"
+            className="login-screen__button"
+            href={`/auth/login?returnTo=${encodeURIComponent(returnTo)}`}
+          >
             Entra ID でログイン
           </Button>
         </div>

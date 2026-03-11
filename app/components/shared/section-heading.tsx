@@ -1,5 +1,6 @@
-import { Badge, Button, Subtitle2, Tooltip } from "@fluentui/react-components";
-import { Info16Regular } from "@fluentui/react-icons";
+import fluentReactComponents from "@fluentui/react-components";
+
+const { Badge, Button, Subtitle2, Tooltip } = fluentReactComponents;
 
 export function SectionHeading({
   eyebrow,
@@ -25,9 +26,10 @@ export function SectionHeading({
               appearance="subtle"
               aria-label={`${title} の補足情報`}
               className="section-info-trigger"
-              icon={<Info16Regular />}
               size="small"
-            />
+            >
+              ?
+            </Button>
           </Tooltip>
         ) : null}
       </div>

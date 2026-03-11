@@ -1,4 +1,6 @@
-import { Badge, Field, Input, Select } from "@fluentui/react-components";
+import fluentReactComponents from "@fluentui/react-components";
+
+const { Badge, Field, Input, Select } = fluentReactComponents;
 import { Link } from "react-router";
 
 import type { AccountSummary } from "~/lib/domain/entities/account";

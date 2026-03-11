@@ -619,6 +619,29 @@ a.list-card:hover,
   padding-top: 4px;
 }
 
+.login-screen__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  line-height: 1;
+  box-shadow: 0 10px 24px rgba(15, 108, 189, 0.18);
+}
+
+.login-screen__button:hover {
+  background: #0c5ea6;
+}
+
+.login-screen__button:focus-visible {
+  outline: 2px solid #0c5ea6;
+  outline-offset: 2px;
+}
+
 @media (max-width: 1180px) {
   .app-shell__inner,
   .hero-grid,
@@ -670,5 +693,9 @@ a.list-card:hover,
 
   .timeline-item {
     grid-template-columns: 1fr;
+  }
+
+  .login-screen__button {
+    width: 100%;
   }
 }

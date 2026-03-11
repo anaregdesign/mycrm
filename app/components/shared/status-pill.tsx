@@ -1,4 +1,6 @@
-import { Badge } from "@fluentui/react-components";
+import fluentReactComponents from "@fluentui/react-components";
+
+const { Badge } = fluentReactComponents;
 
 export function toneFromHealth(value: string) {
   if (value === "healthy" || value === "done" || value === "won") {

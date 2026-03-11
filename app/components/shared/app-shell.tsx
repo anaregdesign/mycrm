@@ -1,7 +1,9 @@
-import { Badge, Body1, Button, Caption1, Subtitle2, Title2 } from "@fluentui/react-components";
+import fluentReactComponents from "@fluentui/react-components";
 import { Link } from "react-router";
 
 import type { ReactNode } from "react";
+
+const { Badge, Body1, Button, Caption1, Subtitle2, Title2 } = fluentReactComponents;
 
 type AuthenticatedUser = {
   email: string;

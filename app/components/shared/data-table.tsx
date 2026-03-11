@@ -1,12 +1,7 @@
-import {
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableHeader,
-  TableHeaderCell,
-  TableRow,
-} from "@fluentui/react-components";
+import fluentReactComponents from "@fluentui/react-components";
+
+const { Button, Table, TableBody, TableCell, TableHeader, TableHeaderCell, TableRow } =
+  fluentReactComponents;
 
 import { useMemo, useState } from "react";
 
