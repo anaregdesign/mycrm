@@ -6,14 +6,23 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useLocation,
 } from "react-router";
 
 import type { Route } from "./+types/root";
+import { LoginScreen } from "./components/auth/login-screen";
 import { AppShell } from "./components/shared/app-shell";
+import { requireAuthenticatedUser } from "./lib/server/infrastructure/auth/entra-auth.server";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [];
+
+export async function loader({ request }: Route.LoaderArgs) {
+  const user = await requireAuthenticatedUser(request);
+
+  return { user };
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -36,6 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  useLoaderData<typeof loader>();
   const location = useLocation();
 
   return (
@@ -51,6 +61,10 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let stack: string | undefined;
 
   if (isRouteErrorResponse(error)) {
+    if (error.status === 401) {
+      return <LoginScreen />;
+    }
+
     message = error.status === 404 ? "404" : "Error";
     details =
       error.status === 404

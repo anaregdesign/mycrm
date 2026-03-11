@@ -74,9 +74,25 @@ npm run dev:prisma
 - `CRM_DATA_SOURCE`: `demo` または `prisma`
 - `DATABASE_URL`: Prisma が利用する Azure SQL 接続文字列
 - `PUBLIC_APP_URL`: 公開 URL
+- `MICROSOFT_ENTRA_CLIENT_ID`: Entra ID app registration の client ID
+- `MICROSOFT_ENTRA_TENANT_ID`: Entra ID tenant ID
+- `MICROSOFT_ENTRA_CLIENT_SECRET`: server-side web app 用 client secret。Key Vault で管理
+- `SESSION_SECRET`: Cookie セッション署名用 secret。Key Vault で管理
 - `AZURE_APPCONFIG_ENDPOINT`: Azure App Configuration endpoint
 - `AZURE_KEY_VAULT_URI`: Key Vault URI
 - `APPLICATIONINSIGHTS_CONNECTION_STRING`: App Insights 接続文字列
+
+## Microsoft Entra ID Login
+
+利用ユーザは Microsoft Entra ID ログインを必須にしています。未ログイン時はどの画面でもアプリ本体を表示せず、ログインスクリーンのみ返します。
+
+- audience: `AzureADMyOrg` を想定
+- local callback: `http://localhost:5173/auth/callback/microsoft`
+- production callback: `https://ca-mycrm.wonderfulfield-c4c1ef40.japaneast.azurecontainerapps.io/auth/callback/microsoft`
+- login route: `/auth/login`
+- callback route: `/auth/callback/microsoft`
+
+App registration は `web` プラットフォームで作成し、上記 callback URL を redirect URI に登録してください。
 
 ## Azure Delivery
 

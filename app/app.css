@@ -576,6 +576,32 @@ a.list-card:hover,
   color: #f3f2f1;
 }
 
+.login-screen {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at top left, rgba(15, 108, 189, 0.08), transparent 24%),
+    linear-gradient(180deg, #f7f9fb 0%, #f3f2f1 100%);
+}
+
+.login-screen__card {
+  width: min(100%, 480px);
+  display: grid;
+  gap: 14px;
+  padding: 28px;
+}
+
+.login-screen__title,
+.login-screen__copy {
+  margin: 0;
+}
+
+.login-screen__actions {
+  padding-top: 4px;
+}
+
 @media (max-width: 1180px) {
   .app-shell__inner,
   .hero-grid,
