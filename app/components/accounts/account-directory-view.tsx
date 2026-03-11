@@ -6,6 +6,7 @@ import { formatCompactCurrency } from "~/lib/domain/value-objects/money";
 
 import { DataTable } from "../shared/data-table";
 import { PageHeader } from "../shared/page-header";
+import { SectionHeading } from "../shared/section-heading";
 import { StatusPill } from "../shared/status-pill";
 
 export function AccountDirectoryView({
@@ -26,10 +27,17 @@ export function AccountDirectoryView({
       <PageHeader
         eyebrow="Accounts"
         title="本部、卸、外食、EC まで取引先を一元化する"
-        copy="法人単位だけでなく、販路、拠点、次アクション、導入商品、取引条件の前提を営業が同じ粒度で見られる状態を作ります。"
+        copy="販路、導入商品、次アクションを同じ粒度で確認できる取引先一覧です。"
       />
 
       <section className="panel stack">
+        <div className="section-header">
+          <SectionHeading
+            eyebrow="Directory"
+            info="取引先の販路、売上、現行商品、導入余地、次アクションを横断で比較できます。"
+            title="取引先一覧を条件で絞り込む"
+          />
+        </div>
         <div className="toolbar">
           <Field className="field-label" label="キーワード">
             <Input

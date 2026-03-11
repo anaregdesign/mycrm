@@ -7,6 +7,7 @@ import { formatCompactCurrency } from "~/lib/domain/value-objects/money";
 
 import { MetricCard } from "../shared/metric-card";
 import { PageHeader } from "../shared/page-header";
+import { SectionHeading } from "../shared/section-heading";
 import { StatusPill } from "../shared/status-pill";
 
 export function DashboardView({
@@ -31,7 +32,7 @@ export function DashboardView({
       <PageHeader
         eyebrow="Revenue Command"
         title="販路ごとの採用確率と余地をまとめて判断する"
-        copy="本部商談、導入余地、案件ステージ、直近活動をひとつの視点で管理し、食品営業の打ち手を日次で更新します。"
+        copy="導入余地と案件進行を同じ視点で確認し、次の打ち手を更新します。"
         aside={<p className="table-caption">As of {data.asOf}</p>}
       />
 
@@ -49,10 +50,11 @@ export function DashboardView({
 
       <section className="panel stack">
         <div className="section-header">
-          <div>
-            <p className="eyebrow">Focus Filters</p>
-            <h2 className="section-title">チャネルと対象先で注力先を絞り込む</h2>
-          </div>
+          <SectionHeading
+            eyebrow="Focus Filters"
+            info="キーワード検索は取引先名、地域、導入余地商品を対象にしています。ステージ件数は当日の対象範囲で集計しています。"
+            title="チャネルと対象先で注力先を絞り込む"
+          />
         </div>
         <div className="toolbar">
           <Field className="field-label" label="キーワード">
@@ -104,10 +106,11 @@ export function DashboardView({
       <section className="two-column">
         <article className="panel stack">
           <div className="section-header">
-            <div>
-              <p className="eyebrow">At Risk</p>
-              <h2 className="section-title">条件調整または再提案が必要な取引先</h2>
-            </div>
+            <SectionHeading
+              eyebrow="At Risk"
+              info="健全性が下がっている取引先を優先表示しています。価格条件、採用品切り替え、活動停滞の見直し対象を想定しています。"
+              title="条件調整または再提案が必要な取引先"
+            />
           </div>
           <div className="list-grid">
             {atRiskAccounts.map((account) => (
@@ -127,10 +130,11 @@ export function DashboardView({
 
         <article className="panel stack">
           <div className="section-header">
-            <div>
-              <p className="eyebrow">Whitespace</p>
-              <h2 className="section-title">導入余地の大きいアカウント</h2>
-            </div>
+            <SectionHeading
+              eyebrow="Whitespace"
+              info="未導入 SKU が多い取引先を表示しています。販路適合と導入余地の両方を見て提案順を決める想定です。"
+              title="導入余地の大きいアカウント"
+            />
           </div>
           <div className="list-grid">
             {whitespaceAccounts.map((account) => (
