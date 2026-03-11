@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "react-router build",
+    "db:azure:init": "tsx scripts/azure/init-azure-sql.ts",
     "db:generate": "prisma generate",
     "db:local:init": "./scripts/dev/init-local-db.sh",
     "db:local:start": "./scripts/dev/start-sqlserver.sh",
@@ -35,6 +36,7 @@
   "devDependencies": {
     "@react-router/dev": "7.12.0",
     "@tailwindcss/vite": "^4.1.13",
+    "@types/mssql": "^9.1.9",
     "@types/node": "^22",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",

@@ -4,6 +4,10 @@ param containerImage string
 param sqlAdministratorLogin string
 param sqlAdministratorObjectId string
 param sqlAdministratorTenantId string = tenant().tenantId
+param registryServer string = ''
+param registryUsername string = ''
+@secure()
+param registryPassword string = ''
 param containerPort int = 3000
 param cpu int = 1
 param memory string = '2Gi'
@@ -20,6 +24,7 @@ var keyVaultName = take('kv${normalizedAppName}${uniqueString(subscription().id,
 var sqlServerName = take('sql-${normalizedAppName}-${uniqueString(resourceGroup().id)}', 63)
 var sqlDatabaseName = 'sqldb-${appName}'
 var databaseUrl = 'sqlserver://${sqlServer.properties.fullyQualifiedDomainName}:1433;database=${sqlDatabase.name};encrypt=true;trustServerCertificate=false;authentication=ActiveDirectoryDefault'
+var hasRegistryCredentials = !empty(registryServer) && !empty(registryUsername) && !empty(registryPassword)
 var appConfigDataReaderRoleDefinitionId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '516239f1-63e1-4d78-a4de-a74fb236a071')
 var keyVaultSecretsUserRoleDefinitionId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '4633458b-17de-408a-b874-0445c86b69e6')
 
@@ -147,6 +152,23 @@ resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
   properties: {
     managedEnvironmentId: managedEnvironment.id
     configuration: {
+      registries: hasRegistryCredentials
+        ? [
+            {
+              server: registryServer
+              username: registryUsername
+              passwordSecretRef: 'container-registry-password'
+            }
+          ]
+        : []
+      secrets: hasRegistryCredentials
+        ? [
+            {
+              name: 'container-registry-password'
+              value: registryPassword
+            }
+          ]
+        : []
       ingress: {
         external: true
         targetPort: containerPort

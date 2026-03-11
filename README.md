@@ -88,8 +88,7 @@ npm run dev:prisma
 
 GitHub Actions で Azure deploy まで使う場合は、GitHub の `production` Environment に以下を用意します。
 
-- Variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `AZURE_RESOURCE_GROUP`, `AZURE_CONTAINER_APP_NAME`, `GHCR_PULL_USERNAME`
-- Secrets: `GHCR_PULL_TOKEN`
+- Variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `AZURE_RESOURCE_GROUP`, `AZURE_CONTAINER_APP_NAME`, `AZURE_CONTAINER_REGISTRY_NAME`
 
 Azure SQL は Microsoft Entra 管理者を必須にしているため、初回の Bicep デプロイでは `sqlAdministratorLogin` と `sqlAdministratorObjectId` を現在の Azure 利用者または管理用グループで渡します。Container App には `DATABASE_URL=sqlserver://<fqdn>:1433;database=<db>;encrypt=true;trustServerCertificate=false;authentication=ActiveDirectoryDefault` が自動で設定され、実行時はマネージド ID で Azure SQL に接続します。
 
